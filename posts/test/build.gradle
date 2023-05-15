@@ -1,0 +1,17 @@
+import dependencies.Dependencies
+
+apply from: "$rootDir/config/android.gradle"
+
+dependencies {
+
+    implementation project(":core-testing")
+    implementation project(":core")
+    implementation project(':posts')
+
+    implementation Dependencies.DI.daggerHilt
+    kapt Dependencies.DI.daggerHiltCompiler
+
+    implementation Dependencies.Kotlin.stdlib
+
+    implementation Dependencies.Test.junit
+}

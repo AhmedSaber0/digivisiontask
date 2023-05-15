@@ -1,0 +1,75 @@
+import dependencies.Dependencies
+
+apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-android'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdk Config.compileSdk
+
+    defaultConfig {
+        applicationId "com.example.digivisiontask"
+        minSdk Config.minSdk
+        targetSdk Config.targetSdk
+        versionCode 1
+        versionName "1.0"
+        buildToolsVersion Config.buildTools
+    }
+
+    testOptions {
+        animationsDisabled = true
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility Config.javaVersion
+        targetCompatibility Config.javaVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = Config.javaVersion.toString()
+        freeCompilerArgs = ["-XXLanguage:+InlineClasses"]
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL", '"https://news-api14.p.rapidapi.com/"'
+            buildConfigField "String", "API_KEY", '"eadc14ddbbmsh83bd09ccfeb8786p10133fjsne159cc4ac2ac"' // X-RapidAPI-Key
+            versionNameSuffix "-debug"
+        }
+
+        release {
+            buildConfigField "String", "BASE_URL", '"https://news-api14.p.rapidapi.com/"'
+            buildConfigField "String", "API_KEY", '"eadc14ddbbmsh83bd09ccfeb8786p10133fjsne159cc4ac2ac"' // X-RapidAPI-Key
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+
+    implementation project(':posts')
+    implementation project(":core")
+
+    implementation Dependencies.Kotlin.stdlib
+    implementation Dependencies.AndroidX.ktx
+    implementation Dependencies.AndroidX.appcompat
+    implementation Dependencies.Google.material
+
+    implementation Dependencies.DI.daggerHilt
+    kapt Dependencies.DI.daggerHiltCompiler
+
+    implementation Dependencies.Networking.loggingInterceptor
+    implementation Dependencies.Networking.retrofit
+    implementation Dependencies.Networking.retrofitRx
+    implementation Dependencies.Networking.moshiConverter
+}

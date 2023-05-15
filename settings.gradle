@@ -1,0 +1,5 @@
+include ':app'
+include ':posts'
+include ':core'
+include ':core-testing'
+include ':posts:test'
